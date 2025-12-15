@@ -1,22 +1,24 @@
-package org.kirsch.service;
+package org.kirsch.service.api;
 
 import com.google.api.gax.rpc.FixedHeaderProvider;
 import com.google.api.gax.rpc.HeaderProvider;
 import com.google.maps.routing.v2.ComputeRoutesRequest;
+import com.google.maps.routing.v2.Location;
 import com.google.maps.routing.v2.Route;
 import com.google.maps.routing.v2.RoutesClient;
 import com.google.maps.routing.v2.RoutesSettings;
 import com.google.maps.routing.v2.Waypoint;
+import com.google.type.LatLng;
 import java.util.List;
 import org.kirsch.ApplicationProperties;
 
 
-public class RoutesApiWrapper {
+public class RoutesApiWrapper implements IRoutesApiWrapper {
 
   private static final String FIELD_MASK_HEADER = "X-Goog-FieldMask";
-  private static final String FIELD_MASK_VALUE = "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline";
+  private static final String FIELD_MASK_VALUE = "routes.duration,routes.distanceMeters";
 
-  public void doGet(Waypoint origin, Waypoint destination) {
+  public void doGet(LatLng origin, LatLng destination) {
 
     String apiKey = ApplicationProperties.getInstance().getGoogleApiKey();
 
@@ -35,8 +37,8 @@ public class RoutesApiWrapper {
 
 
         ComputeRoutesRequest request = ComputeRoutesRequest.newBuilder()
-            .setOrigin(origin)
-            .setDestination(destination)
+            .setOrigin(createWaypointForLatLng(origin))
+            .setDestination(createWaypointForLatLng(destination))
             // .setTravelMode(TravelMode.DRIVE)
             .build();
 
@@ -47,7 +49,6 @@ public class RoutesApiWrapper {
           System.out.println("Route found:");
           System.out.println("Duration: " + route.getDuration());
           System.out.println("Distance Meters: " + route.getDistanceMeters());
-          System.out.println("Encoded Polyline: " + route.getPolyline().getEncodedPolyline());
         } else {
           System.out.println("No routes found.");
         }
@@ -57,5 +58,12 @@ public class RoutesApiWrapper {
     }
   }
 
+  private static Waypoint createWaypointForLatLng(LatLng latLng) {
+    return Waypoint.newBuilder()
+        .setLocation(Location.newBuilder()
+            .setLatLng(latLng)
+            .build())
+        .build();
+  }
 
 }

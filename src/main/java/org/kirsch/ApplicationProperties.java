@@ -27,4 +27,16 @@ public class ApplicationProperties extends Properties {
     return applicationProperties.getProperty("com.google.api.key");
   }
 
+  public Integer getPlacesMaxResultCount() {
+    int maxResultCount = 0;
+    try {
+      String str = applicationProperties.getProperty("com.google.maps.places.max_result_count", "10");
+      maxResultCount = Integer.parseInt(str);
+    } catch (NumberFormatException e) {
+      // eat error
+      maxResultCount = 10;
+    }
+    return maxResultCount;
+  }
+
 }
