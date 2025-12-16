@@ -10,9 +10,10 @@ import com.google.maps.routing.v2.RoutesSettings;
 import com.google.maps.routing.v2.Waypoint;
 import com.google.type.LatLng;
 import java.util.List;
-import org.kirsch.ApplicationProperties;
+import org.kirsch.util.ApplicationProperties;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class RoutesApiWrapper implements IRoutesApiWrapper {
 
   private static final String FIELD_MASK_HEADER = "X-Goog-FieldMask";

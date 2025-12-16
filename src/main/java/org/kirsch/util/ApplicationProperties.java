@@ -1,4 +1,4 @@
-package org.kirsch;
+package org.kirsch.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;

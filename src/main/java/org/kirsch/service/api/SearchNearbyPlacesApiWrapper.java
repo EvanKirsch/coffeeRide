@@ -11,9 +11,11 @@ import com.google.maps.places.v1.SearchNearbyResponse;
 import com.google.type.LatLng;
 import java.util.ArrayList;
 import java.util.List;
-import org.kirsch.ApplicationProperties;
+import org.kirsch.util.ApplicationProperties;
 import org.kirsch.util.DistanceCalculator;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SearchNearbyPlacesApiWrapper implements ISearchNearbyPlacesApiWrapper {
 
   private static final String FIELD_MASK_HEADER = "X-Goog-FieldMask";
@@ -21,6 +23,7 @@ public class SearchNearbyPlacesApiWrapper implements ISearchNearbyPlacesApiWrapp
 
   String apiKey = ApplicationProperties.getInstance().getGoogleApiKey();
 
+  @Override
   public List<Place> doGet(LatLng origin, LatLng destination) {
     try {
 
