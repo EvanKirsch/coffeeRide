@@ -2,11 +2,15 @@ package org.kirsch.service.pathfinding;
 
 import org.kirsch.model.WeightedPlaceGraph;
 import org.kirsch.util.DebugUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EdgeCalculator {
 
   private final DebugUtil debugUtil;
 
+  @Autowired
   public EdgeCalculator() {
     this.debugUtil = DebugUtil.getInstance();
   }

@@ -9,7 +9,10 @@ import org.kirsch.service.api.ISearchNearbyPlacesApiWrapper;
 import org.kirsch.service.api.SearchNearbyPlacesApiWrapper;
 import org.kirsch.util.DebugUtil;
 import org.kirsch.util.DistanceCalculator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SdtPathFinder implements IPathFinder {
 
   private final ISearchNearbyPlacesApiWrapper searchPlacesWrapper;
@@ -17,11 +20,14 @@ public class SdtPathFinder implements IPathFinder {
   private final DebugUtil debugUtil;
   private final PlaceGraphFactory graphFactory;
 
-  public SdtPathFinder() {
-    this.searchPlacesWrapper = new SearchNearbyPlacesApiWrapper();
-    this.edgeCalculator = new EdgeCalculator();
+  @Autowired
+  public SdtPathFinder(SearchNearbyPlacesApiWrapper searchPlacesWrapper,
+      EdgeCalculator edgeCalculator,
+      PlaceGraphFactory graphFactory) {
+    this.searchPlacesWrapper = searchPlacesWrapper;
+    this.edgeCalculator = edgeCalculator;
+    this.graphFactory = graphFactory;
     this.debugUtil = DebugUtil.getInstance();
-    this.graphFactory = new WeightedPlaceGraphFactory();
   }
 
   @Override
