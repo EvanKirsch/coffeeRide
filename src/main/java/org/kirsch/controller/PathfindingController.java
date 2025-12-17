@@ -1,7 +1,5 @@
 package org.kirsch.controller;
 
-import com.google.maps.places.v1.Place;
-import java.util.List;
 import org.kirsch.model.PathfindingRequest;
 import org.kirsch.model.PathfindingResponse;
 import org.kirsch.service.pathfinding.IPathFinder;

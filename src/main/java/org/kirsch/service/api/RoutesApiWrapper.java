@@ -5,6 +5,7 @@ import com.google.api.gax.rpc.HeaderProvider;
 import com.google.maps.routing.v2.ComputeRoutesRequest;
 import com.google.maps.routing.v2.Location;
 import com.google.maps.routing.v2.Route;
+import com.google.maps.routing.v2.RouteTravelMode;
 import com.google.maps.routing.v2.RoutesClient;
 import com.google.maps.routing.v2.RoutesSettings;
 import com.google.maps.routing.v2.Waypoint;
@@ -40,7 +41,7 @@ public class RoutesApiWrapper implements IRoutesApiWrapper {
         ComputeRoutesRequest request = ComputeRoutesRequest.newBuilder()
             .setOrigin(createWaypointForLatLng(origin))
             .setDestination(createWaypointForLatLng(destination))
-            // .setTravelMode(TravelMode.DRIVE)
+            .setTravelMode(RouteTravelMode.BICYCLE)
             .build();
 
         List<Route> responseRoutes = routesClient.computeRoutes(request).getRoutesList();

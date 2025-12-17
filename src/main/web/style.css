@@ -1,0 +1,13 @@
+#map {
+    height: 95%;
+}
+#submitBox {
+    height: 30px;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 1;
+    padding: 0;
+}
