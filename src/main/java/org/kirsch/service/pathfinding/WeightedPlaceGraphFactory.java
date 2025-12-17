@@ -10,7 +10,7 @@ import org.kirsch.util.DistanceCalculator;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WeightedPlaceGraphFactory implements PlaceGraphFactory {
+public class WeightedPlaceGraphFactory implements IPlaceGraphFactory {
 
   public WeightedPlaceGraph createGraph(List<Place> places, LatLng origin, LatLng target) {
     List<Node> nodes = new ArrayList<>();

@@ -18,12 +18,12 @@ public class SdtPathFinder implements IPathFinder {
   private final ISearchNearbyPlacesApiWrapper searchPlacesWrapper;
   private final EdgeCalculator edgeCalculator;
   private final DebugUtil debugUtil;
-  private final PlaceGraphFactory graphFactory;
+  private final IPlaceGraphFactory graphFactory;
 
   @Autowired
   public SdtPathFinder(SearchNearbyPlacesApiWrapper searchPlacesWrapper,
       EdgeCalculator edgeCalculator,
-      PlaceGraphFactory graphFactory) {
+      IPlaceGraphFactory graphFactory) {
     this.searchPlacesWrapper = searchPlacesWrapper;
     this.edgeCalculator = edgeCalculator;
     this.graphFactory = graphFactory;
