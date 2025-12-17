@@ -45,8 +45,9 @@ public class SdtPathFinder implements IPathFinder {
         .setLatitude(pathfindingRequest.getDstLat())
         .setLongitude(pathfindingRequest.getDstLng())
         .build();
+    double step = Math.max(pathfindingRequest.getStep(), 0.01);
     do {
-      target = DistanceCalculator.findNextTarget(origin, destination, 0.1);
+      target = DistanceCalculator.findNextTarget(origin, destination, step);
       List<Place> places = searchPlacesWrapper.doGet(origin, target);
       WeightedPlaceGraph graph = graphFactory.createGraph(places, origin, target);
       edgeCalculator.sortNodes(graph);

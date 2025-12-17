@@ -9,5 +9,6 @@ public class PathfindingRequest {
   private double orgLng;
   private double dstLat;
   private double dstLng;
+  private double step;
 
 }
