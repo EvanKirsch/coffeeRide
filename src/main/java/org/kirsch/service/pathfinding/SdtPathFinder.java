@@ -47,6 +47,7 @@ public class SdtPathFinder implements IPathFinder {
         .setLongitude(pathfindingRequest.getDstLng())
         .build();
     double step = Math.max(pathfindingRequest.getStep(), 0.01);
+    boolean isDeadEnd = false;
     do {
       target = DistanceCalculator.findNextTarget(origin, destination, step);
       List<Place> places = searchPlacesWrapper.doGet(origin, target);
@@ -56,8 +57,10 @@ public class SdtPathFinder implements IPathFinder {
       if (nodes != null && !nodes.isEmpty()) {
         origin = nodes.get(0).getPlace().getLocation();
         bestRoute.add(new CoffeeRidePlace(nodes.get(0).getPlace()));
+      } else {
+        isDeadEnd = true;
       }
-    } while (target != destination);
+    } while (target != destination && !isDeadEnd);
     return new PathfindingResponse(bestRoute);
   }
 
