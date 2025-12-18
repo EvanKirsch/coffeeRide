@@ -5,6 +5,7 @@ import com.google.type.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 import org.kirsch.model.CoffeeRidePlace;
+import org.kirsch.model.Node;
 import org.kirsch.model.PathfindingRequest;
 import org.kirsch.model.PathfindingResponse;
 import org.kirsch.model.WeightedPlaceGraph;
@@ -51,8 +52,11 @@ public class SdtPathFinder implements IPathFinder {
       List<Place> places = searchPlacesWrapper.doGet(origin, target);
       WeightedPlaceGraph graph = graphFactory.createGraph(places, origin, target);
       edgeCalculator.sortNodes(graph);
-      origin = graph.getNodes().get(0).getPlace().getLocation();
-      bestRoute.add(new CoffeeRidePlace(graph.getNodes().get(0).getPlace()));
+      List<Node> nodes = graph.getNodes();
+      if (nodes != null && !nodes.isEmpty()) {
+        origin = nodes.get(0).getPlace().getLocation();
+        bestRoute.add(new CoffeeRidePlace(nodes.get(0).getPlace()));
+      }
     } while (target != destination);
     return new PathfindingResponse(bestRoute);
   }
