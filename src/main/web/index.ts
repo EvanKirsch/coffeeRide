@@ -1,11 +1,10 @@
 let map: google.maps.Map;
 async function initMap(): Promise<void> {
-    const { Map } = (await google.maps.importLibrary(
-        'maps'
-    )) as google.maps.MapsLibrary;
-    map = new Map(document.getElementById('map') as HTMLElement, {
+    const { Map } = (await google.maps.importLibrary("maps")) as google.maps.MapsLibrary;
+    map = new Map(document.getElementById("map") as HTMLElement, {
         center: { lat: 43.03, lng: -87.90 },
         zoom: 12,
+        mapId: 'MY_MAP_ID'
     });
 }
 
@@ -13,6 +12,18 @@ type Route = {
   origin: string;
   destination: string;
   step: string;
+};
+
+type Point = {
+  displayName: string;
+  address: string;
+  lat: number;
+  lng: number;
+  name: string;
+};
+
+type RideData = {
+  places: Point[];
 };
 
 document.getElementById("fcsSubmit")?.addEventListener("click", function(e) {
@@ -28,8 +39,16 @@ document.getElementById("fcsSubmit")?.addEventListener("click", function(e) {
     method:"PUT",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify(route)
-  }).then(()=>{
-    console.log("Post route: " + route)
+  }).then(async (response)=>{
+    const data: RideData = await response.json();
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+    data.places.forEach((place) => {
+      new AdvancedMarkerElement({
+        map: map,
+        position: { lat: place.lat, lng: place.lng },
+        title: place.displayName,
+      });
+    });
   })
 })
 
