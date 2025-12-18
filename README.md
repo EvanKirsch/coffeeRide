@@ -5,3 +5,6 @@ curl -X PUT -d '{
   "step":"0.2"
 }' -H 'Content-Type: application/json' localhost:8080/pathfinding
 ```
+
+Prototype:
+![prototype screenshot](https://github.com/EvanKirsch/coffeeRide/blob/master/screenshots/prototype.png)
