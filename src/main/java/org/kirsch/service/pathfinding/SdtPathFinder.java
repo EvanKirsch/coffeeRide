@@ -59,6 +59,7 @@ public class SdtPathFinder implements IPathFinder {
         origin = nodes.get(0).getPlace().getLocation();
         bestRoute.add(new CoffeeRidePlace(nodes.get(0).getPlace()));
       } else {
+        // TODO - solve
         isDeadEnd = true;
       }
     } while (target != destination && !isDeadEnd);
