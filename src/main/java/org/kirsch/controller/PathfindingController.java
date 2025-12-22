@@ -1,5 +1,7 @@
 package org.kirsch.controller;
 
+import com.google.maps.routing.v2.Route;
+import java.util.List;
 import org.kirsch.model.PathfindingRequest;
 import org.kirsch.model.PathfindingRequestStr;
 import org.kirsch.model.PathfindingResponse;
@@ -31,7 +33,9 @@ public class PathfindingController implements IPathfindingController {
   @Override
   public PathfindingResponse findRoute(@RequestBody PathfindingRequestStr requestStr) {
     PathfindingRequest request = conversionService.convert(requestStr, PathfindingRequest.class);
-    return pathFinder.buildRoute(request);
+    List<Route> route = pathFinder.buildRoute(request);
+    PathfindingResponse response = conversionService.convert(route.get(0), PathfindingResponse.class);
+    return response;
   }
 
 }

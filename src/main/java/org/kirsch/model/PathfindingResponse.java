@@ -8,6 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class PathfindingResponse {
 
-  private List<CoffeeRidePlace> places;
+  private List<CoffeeRideLeg> legs;
+  private String encodedPolyline;
 
 }

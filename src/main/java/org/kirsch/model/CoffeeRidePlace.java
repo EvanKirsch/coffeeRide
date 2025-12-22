@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 public class CoffeeRidePlace {
 
-  private String displayName;
-  private String address;
-  private double lat;
-  private double lng;
-  private String name;
+  private final String displayName;
+  private final String address;
+  private final double lat;
+  private final double lng;
+  private final String name;
 
   public CoffeeRidePlace(Place place) {
     this.displayName = place.getDisplayName().getText();

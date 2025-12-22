@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ISearchNearbyPlacesApiWrapper {
 
-  List<Place> doGet(LatLng origin, LatLng destination);
+  List<Place> searchNearby(LatLng origin, LatLng destination);
 
 }

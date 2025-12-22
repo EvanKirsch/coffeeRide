@@ -1,17 +1,17 @@
 package org.kirsch.service.pathfinding;
 
 import com.google.maps.places.v1.Place;
+import com.google.maps.routing.v2.Route;
 import com.google.type.LatLng;
 import java.util.ArrayList;
 import java.util.List;
-import org.kirsch.model.CoffeeRidePlace;
 import org.kirsch.model.Node;
 import org.kirsch.model.PathfindingRequest;
-import org.kirsch.model.PathfindingResponse;
 import org.kirsch.model.WeightedPlaceGraph;
+import org.kirsch.service.api.IRoutesApiWrapper;
 import org.kirsch.service.api.ISearchNearbyPlacesApiWrapper;
+import org.kirsch.service.api.RoutesApiWrapper;
 import org.kirsch.service.api.SearchNearbyPlacesApiWrapper;
-import org.kirsch.util.DebugUtil;
 import org.kirsch.util.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,29 +20,30 @@ import org.springframework.stereotype.Service;
 public class SdtPathFinder implements IPathFinder {
 
   private final ISearchNearbyPlacesApiWrapper searchPlacesWrapper;
+  private final IRoutesApiWrapper routesApiWrapper;
   private final EdgeCalculator edgeCalculator;
-  private final DebugUtil debugUtil;
   private final IPlaceGraphFactory graphFactory;
 
   @Autowired
   public SdtPathFinder(SearchNearbyPlacesApiWrapper searchPlacesWrapper,
+      RoutesApiWrapper routesApiWrapper,
       EdgeCalculator edgeCalculator,
       IPlaceGraphFactory graphFactory) {
+    this.routesApiWrapper = routesApiWrapper;
     this.searchPlacesWrapper = searchPlacesWrapper;
     this.edgeCalculator = edgeCalculator;
     this.graphFactory = graphFactory;
-    this.debugUtil = DebugUtil.getInstance();
   }
 
   @Override
-  public PathfindingResponse buildRoute(PathfindingRequest pathfindingRequest) {
+  public List<Route> buildRoute(PathfindingRequest pathfindingRequest) {
     LatLng target;
-    List<CoffeeRidePlace> bestRoute = new ArrayList<>();
+    List<Place> bestRoute = new ArrayList<>();
     LatLng origin = LatLng.newBuilder()
         .setLatitude(pathfindingRequest.getOrgLat())
         .setLongitude(pathfindingRequest.getOrgLng())
         .build();
-    bestRoute.add(new CoffeeRidePlace(origin));
+    LatLng curOrigin = origin;
     LatLng destination = LatLng.newBuilder()
         .setLatitude(pathfindingRequest.getDstLat())
         .setLongitude(pathfindingRequest.getDstLng())
@@ -50,21 +51,21 @@ public class SdtPathFinder implements IPathFinder {
     double step = Math.max(pathfindingRequest.getStep(), 0.01);
     boolean isDeadEnd = false;
     do {
-      target = DistanceCalculator.findNextTarget(origin, destination, step);
-      List<Place> places = searchPlacesWrapper.doGet(origin, target);
-      WeightedPlaceGraph graph = graphFactory.createGraph(places, origin, target);
+      target = DistanceCalculator.findNextTarget(curOrigin, destination, step);
+      List<Place> places = searchPlacesWrapper.searchNearby(curOrigin, target);
+      WeightedPlaceGraph graph = graphFactory.createGraph(places, curOrigin, target);
       edgeCalculator.sortNodes(graph);
       List<Node> nodes = graph.getNodes();
       if (nodes != null && !nodes.isEmpty()) {
-        origin = nodes.get(0).getPlace().getLocation();
-        bestRoute.add(new CoffeeRidePlace(nodes.get(0).getPlace()));
+        curOrigin = nodes.get(0).getPlace().getLocation();
+        bestRoute.add(nodes.get(0).getPlace());
       } else {
         // TODO - solve
         isDeadEnd = true;
       }
     } while (target != destination && !isDeadEnd);
-    bestRoute.add(new CoffeeRidePlace(destination));
-    return new PathfindingResponse(bestRoute);
+    List<Route> routes = routesApiWrapper.computeRoute(origin, destination, bestRoute);
+    return routes;
   }
 
 }

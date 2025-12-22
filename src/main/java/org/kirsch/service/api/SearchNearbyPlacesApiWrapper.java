@@ -24,7 +24,9 @@ public class SearchNearbyPlacesApiWrapper implements ISearchNearbyPlacesApiWrapp
   String apiKey = ApplicationProperties.getInstance().getGoogleApiKey();
 
   @Override
-  public List<Place> doGet(LatLng origin, LatLng destination) {
+  public List<Place> searchNearby(LatLng origin, LatLng destination) {
+    List<Place> places = new ArrayList<>();
+
     try {
 
       HeaderProvider headerProvider = FixedHeaderProvider.create(
@@ -49,8 +51,7 @@ public class SearchNearbyPlacesApiWrapper implements ISearchNearbyPlacesApiWrapp
         SearchNearbyResponse searchNearbyResponse = placesClient.searchNearby(request);
 
         if (searchNearbyResponse.isInitialized()) {
-          List<Place> places = searchNearbyResponse.getPlacesList();
-          return places;
+          places = searchNearbyResponse.getPlacesList();
         } else {
           System.out.println("No routes found.");
         }
@@ -58,7 +59,7 @@ public class SearchNearbyPlacesApiWrapper implements ISearchNearbyPlacesApiWrapp
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return new ArrayList<>();
+    return places;
   }
 
   SearchNearbyRequest.LocationRestriction getLocationRestriction(LatLng origin, LatLng destination) {
