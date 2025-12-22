@@ -1,7 +1,7 @@
 src/main/resources/application.properties
 src/main/web/dist
 src/main/web/node_modules
-src/main/web/*.js
+src/main/web/**/*.js
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

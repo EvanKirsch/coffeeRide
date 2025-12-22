@@ -26,30 +26,30 @@ type RideData = {
   places: Point[];
 };
 
+async function renderResponse(response) {
+  const data: RideData = await response.json();
+  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+  data.places.forEach((place) => {
+    new AdvancedMarkerElement({
+      map: map,
+      position: { lat: place.lat, lng: place.lng },
+      title: place.displayName,
+    });
+  });
+}
+
 document.getElementById("fcsSubmit")?.addEventListener("click", function(e) {
-  console.log("onClick")
   e.preventDefault()
   const route = <Route>({
     origin: (<HTMLInputElement>document.getElementById("origin"))?.value,
     destination: (<HTMLInputElement>document.getElementById("destination"))?.value,
     step: (<HTMLInputElement>document.getElementById("step"))?.value
   })
-  console.log(route)
   fetch("http://localhost:8080/pathfinding",{
     method:"PUT",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify(route)
-  }).then(async (response)=>{
-    const data: RideData = await response.json();
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
-    data.places.forEach((place) => {
-      new AdvancedMarkerElement({
-        map: map,
-        position: { lat: place.lat, lng: place.lng },
-        title: place.displayName,
-      });
-    });
-  })
+  }).then(async (response) => renderResponse(response))
 })
 
 initMap();
