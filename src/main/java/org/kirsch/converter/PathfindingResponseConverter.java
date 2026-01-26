@@ -1,6 +1,5 @@
 package org.kirsch.converter;
 
-import com.google.maps.routing.v2.Polyline;
 import com.google.maps.routing.v2.Route;
 import com.google.maps.routing.v2.RouteLeg;
 import java.util.ArrayList;
