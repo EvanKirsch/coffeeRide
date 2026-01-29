@@ -1,0 +1,5 @@
+- [ ] add endpoint provider for portablitity
+- [ ] make prettier
+- [ ] fix pathfinding to solution on dead end
+- [ ] clean up unused objects
+- [ ] print more details on screen
