@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/java
 {
-	"name": "Java",
+	"name": "Java 17 and Node 22",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/java:0-17",
 
@@ -10,14 +10,17 @@
 			"version": "none",
 			"installMaven": "true",
 			"installGradle": "false"
-		}
-	}
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+            "version": "22"
+        }
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "java -version",
+	"postCreateCommand": "npm install -g typescript vite"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
