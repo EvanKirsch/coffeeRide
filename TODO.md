@@ -1,5 +1,8 @@
-- [ ] add endpoint provider for portablitity
+- [x] add endpoint provider for portablitity
+  - [ ] Make url factory more powerful
+    - [ ] handle running from github codespce containers 
 - [ ] make prettier
+- [ ] lookup by name
 - [ ] fix pathfinding to solution on dead end
 - [ ] clean up unused objects
 - [ ] print more details on screen

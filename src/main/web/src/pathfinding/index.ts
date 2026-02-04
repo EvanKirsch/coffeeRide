@@ -1,4 +1,5 @@
 let map: google.maps.Map;
+import { EndpointFactory } from "../common/endpointFactory"
 
 async function initMap(): Promise<void> {
     const { Map } = (await google.maps.importLibrary("maps")) as google.maps.MapsLibrary;
@@ -38,7 +39,7 @@ document.getElementById("fcsSubmit")?.addEventListener("click", function(e) {
     destination: (<HTMLInputElement>document.getElementById("destination"))?.value,
     step: (<HTMLInputElement>document.getElementById("step"))?.value
   })
-  fetch("http://localhost:8080/pathfinding",{
+  fetch(EndpointFactory.getAppServerBaseUrl() + "/pathfinding",{
     method:"PUT",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify(route)

@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@types/google.maps": "^3.58.1"
+    "@types/google.maps": "^3.58.1",
+    "@types/node": "^25.2.0"
   },
   "dependencies": {
     "vite": "^7.3.0"
