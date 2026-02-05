@@ -6,5 +6,6 @@ curl -X PUT -d '{
 }' -H 'Content-Type: application/json' localhost:8080/pathfinding
 ```
 
-Prototype:
+Prototypes:
 ![prototype screenshot](https://github.com/EvanKirsch/coffeeRide/blob/master/screenshots/prototype.png)
+![prototype 2 screenshot](https://github.com/EvanKirsch/coffeeRide/blob/master/screenshots/prototype_2.png)
