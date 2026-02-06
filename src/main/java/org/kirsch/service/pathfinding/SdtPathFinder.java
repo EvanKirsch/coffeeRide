@@ -8,6 +8,8 @@ import java.util.List;
 import org.kirsch.model.Node;
 import org.kirsch.model.PathfindingRequest;
 import org.kirsch.model.WeightedPlaceGraph;
+import org.kirsch.service.api.GeocodeApiWrapper;
+import org.kirsch.service.api.IGeocodeApiWrapper;
 import org.kirsch.service.api.IRoutesApiWrapper;
 import org.kirsch.service.api.ISearchNearbyPlacesApiWrapper;
 import org.kirsch.service.api.RoutesApiWrapper;
@@ -23,31 +25,30 @@ public class SdtPathFinder implements IPathFinder {
   private final IRoutesApiWrapper routesApiWrapper;
   private final EdgeCalculator edgeCalculator;
   private final IPlaceGraphFactory graphFactory;
+  private final IGeocodeApiWrapper geocodeApiWrapper;
 
   @Autowired
   public SdtPathFinder(SearchNearbyPlacesApiWrapper searchPlacesWrapper,
       RoutesApiWrapper routesApiWrapper,
       EdgeCalculator edgeCalculator,
-      IPlaceGraphFactory graphFactory) {
+      IPlaceGraphFactory graphFactory,
+      GeocodeApiWrapper geocodeApiWrapper
+      ) {
     this.routesApiWrapper = routesApiWrapper;
     this.searchPlacesWrapper = searchPlacesWrapper;
     this.edgeCalculator = edgeCalculator;
     this.graphFactory = graphFactory;
+    this.geocodeApiWrapper = geocodeApiWrapper;
   }
 
   @Override
   public List<Route> buildRoute(PathfindingRequest pathfindingRequest) {
     LatLng target;
     List<Place> bestRoute = new ArrayList<>();
-    LatLng origin = LatLng.newBuilder()
-        .setLatitude(pathfindingRequest.getOrgLat())
-        .setLongitude(pathfindingRequest.getOrgLng())
-        .build();
+
+    LatLng origin = geocodeApiWrapper.geocode(pathfindingRequest.getOrgAddress());
     LatLng curOrigin = origin;
-    LatLng destination = LatLng.newBuilder()
-        .setLatitude(pathfindingRequest.getDstLat())
-        .setLongitude(pathfindingRequest.getDstLng())
-        .build();
+    LatLng destination = geocodeApiWrapper.geocode(pathfindingRequest.getDstAddress());
     double step = Math.max(pathfindingRequest.getStep(), 0.01);
     boolean isDeadEnd = false;
     do {

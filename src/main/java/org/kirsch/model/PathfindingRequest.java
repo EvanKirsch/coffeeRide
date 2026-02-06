@@ -7,10 +7,8 @@ import lombok.Data;
 @Builder
 public class PathfindingRequest {
 
-  private double orgLat;
-  private double orgLng;
-  private double dstLat;
-  private double dstLng;
+  private String orgAddress;
+  private String dstAddress;
   private double step;
 
 }

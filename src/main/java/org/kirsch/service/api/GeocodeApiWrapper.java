@@ -28,7 +28,7 @@ public class GeocodeApiWrapper implements IGeocodeApiWrapper {
 
       latLng = LatLng.newBuilder()
         .setLatitude(response[0].geometry.location.lat)
-        .setLongitude( response[0].geometry.location.lat)
+        .setLongitude( response[0].geometry.location.lng)
         .build();
 
     } catch (Exception e) {
