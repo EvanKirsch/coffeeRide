@@ -5,7 +5,7 @@
     "build": "tsc && bash ../jsfiddle.sh map-simple && bash ../app.sh map-simple && bash ../docs.sh map-simple &&  npm run build:vite --workspace=. && bash ../dist.sh map-simple",
     "test": "tsc && npm run build:vite --workspace=.",
     "start": "tsc && vite build --base './' && vite",
-    "build:vite": "vite build --base './' --outDir '../resources/static' --emptyOutDir true",
+    "build:vite": "./node_modules/vite/bin/vite.js build --base './' --outDir '../resources/static' --emptyOutDir true",
     "preview": "vite preview"
   },
   "devDependencies": {
