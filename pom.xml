@@ -85,6 +85,7 @@
         <configuration>
           <nodeVersion>v24.12.0</nodeVersion>
           <npmVersion>11.6.2</npmVersion>
+          <workingDirectory>${project.web.directory}</workingDirectory>
         </configuration>
       </plugin>
       <plugin>
@@ -99,12 +100,12 @@
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <executable>npm</executable>
+              <executable>node/npm</executable>
               <arguments>
                 <argument>run</argument>
                 <argument>build:vite</argument>
               </arguments>
-            <workingDirectory>${project.web.directory}</workingDirectory>
+              <workingDirectory>${project.web.directory}</workingDirectory>
             </configuration>
           </execution>
         </executions>
