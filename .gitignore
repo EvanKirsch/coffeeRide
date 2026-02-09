@@ -1,4 +1,5 @@
 src/main/resources/application.properties
+src/main/resources/static
 src/main/web/dist
 src/main/web/node_modules
 src/main/web/**/*.js
