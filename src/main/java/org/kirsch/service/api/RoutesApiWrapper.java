@@ -35,7 +35,7 @@ public class RoutesApiWrapper implements IRoutesApiWrapper {
   @Override
   public List<Route> computeRoute(LatLng origin, LatLng destination, List<Place> intermediates) {
     List<Route> responseRoutes = new ArrayList<>();
-    String apiKey = ApplicationProperties.getInstance().getGoogleApiKey();
+    String apiKey = ApplicationProperties.getInstance().getGoogleJavaApiKey();
 
     try {
 

@@ -11,7 +11,7 @@ import org.kirsch.util.ApplicationProperties;
 @Service
 public class GeocodeApiWrapper implements IGeocodeApiWrapper {
 
-  private String apiKey = ApplicationProperties.getInstance().getGoogleApiKey();
+  private String apiKey = ApplicationProperties.getInstance().getGoogleJavaApiKey();
 
   public LatLng geocode(String address) {
     LatLng latLng = null;

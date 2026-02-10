@@ -1,0 +1,3 @@
+type ApiKeyResponse = {
+  key: string;
+};

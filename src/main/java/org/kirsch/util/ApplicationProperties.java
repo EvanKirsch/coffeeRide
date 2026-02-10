@@ -23,8 +23,12 @@ public class ApplicationProperties extends Properties {
     return applicationProperties;
   }
 
-  public String getGoogleApiKey() {
-    return applicationProperties.getProperty("com.google.api.key");
+  public String getGoogleJavaApiKey() {
+    return applicationProperties.getProperty("com.google.api.key.java");
+  }
+
+  public String getGoogleJsApiKey() {
+    return applicationProperties.getProperty("com.google.api.key.js");
   }
 
   public Integer getPlacesMaxResultCount() {

@@ -21,7 +21,7 @@ public class SearchNearbyPlacesApiWrapper implements ISearchNearbyPlacesApiWrapp
   private static final String FIELD_MASK_HEADER = "X-Goog-FieldMask";
   private static final String FIELD_MASK_VALUE = "*";
 
-  private String apiKey = ApplicationProperties.getInstance().getGoogleApiKey();
+  private String apiKey = ApplicationProperties.getInstance().getGoogleJavaApiKey();
 
   @Override
   public List<Place> searchNearby(LatLng origin, LatLng destination) {
