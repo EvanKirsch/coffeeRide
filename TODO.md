@@ -1,8 +1,8 @@
+- [ ] api keys
+- [ ] update url factory for deployment
 - [x] add endpoint provider for portablitity
-  - [ ] Make url factory more powerful
     - [ ] handle running from github codespce containers 
 - [ ] test server side geocoding service wrapper
 - [ ] fix pathfinding to solution on dead end in stdpathfinder
 - [ ] print more details on screen
-- [ ] client side api key
 - [ ] make prettier
