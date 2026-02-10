@@ -24,11 +24,11 @@ public class ApplicationProperties extends Properties {
   }
 
   public String getGoogleJavaApiKey() {
-    return applicationProperties.getProperty("com.google.api.key.java");
+    return applicationProperties.getProperty("com.google.api.key.java", System.getenv("GOOGLE_API_KEY_JAVA"));
   }
 
   public String getGoogleJsApiKey() {
-    return applicationProperties.getProperty("com.google.api.key.js");
+    return applicationProperties.getProperty("com.google.api.key.js", System.getenv("GOOGLE_API_KEY_JS"));
   }
 
   public Integer getPlacesMaxResultCount() {
