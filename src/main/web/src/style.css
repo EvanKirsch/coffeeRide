@@ -18,6 +18,13 @@
     left: 0;
     z-index: 0;
 }
+.under-construction {
+    width: 100%;
+    --yellow:       255, 215, 0;
+    background: rgba(var(--yellow), 0.4);
+    position: absolute;
+    z-index: 2;
+}
 html,
 body {
     height: 100%;
