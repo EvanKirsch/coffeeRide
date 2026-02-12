@@ -1,5 +1,5 @@
 {
-  "name": "@js-api-samples/map-simple",
+  "name": "@kirsch/coffee-ride",
   "version": "1.0.0",
   "scripts": {
     "build": "tsc && bash ../jsfiddle.sh map-simple && bash ../app.sh map-simple && bash ../docs.sh map-simple &&  npm run build:vite --workspace=. && bash ../dist.sh map-simple",
