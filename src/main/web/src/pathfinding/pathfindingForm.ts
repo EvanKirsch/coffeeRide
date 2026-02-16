@@ -6,15 +6,13 @@ export class PathfindingForm {
   async initAutocompleteWidgets() {
     (await google.maps.importLibrary('places')) as google.maps.PlacesLibrary;
 
-    const originPlaceAutocomplete = new google.maps.places.PlaceAutocompleteElement(
-        {}
-    );
+    const originPlaceAutocomplete = new google.maps.places.PlaceAutocompleteElement();
+    originPlaceAutocomplete.style.colorScheme = "none";
     originPlaceAutocomplete.setAttribute("id", "origin")
     document.getElementById("origin")?.replaceWith(originPlaceAutocomplete);
 
-    const destPlaceAutocomplete = new google.maps.places.PlaceAutocompleteElement(
-        {}
-    );
+    const destPlaceAutocomplete = new google.maps.places.PlaceAutocompleteElement();
+    destPlaceAutocomplete.style.colorScheme = "none";
     destPlaceAutocomplete.setAttribute("id", "destination")
     document.getElementById("destination")?.replaceWith(destPlaceAutocomplete);
   }
