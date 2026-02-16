@@ -28,7 +28,6 @@ public final class DistanceCalculator {
     double latDif = p0.getLatitude() - p1.getLatitude();
     double lngDif = p0.getLongitude() - p1.getLongitude();
     double latLngDist = Math.sqrt(Math.pow(latDif, 2) + Math.pow(lngDif, 2));
-    //double approxDegreeGap = flatGap / 69.1;
     double approxDegreeGap = approxGapSizeFromMilesToDegrees(p0, p1, flatGap);
 
     if (approxDegreeGap >= latLngDist) {
@@ -43,29 +42,23 @@ public final class DistanceCalculator {
     }
   }
 
-  @Deprecated // this is not calculating correctly and needs to be fixed
+  // TODO - I think there is an issue w/ negative directions. Need to work on tests
   private static double approxGapSizeFromMilesToDegrees(LatLng p0, LatLng p1, double flatGap) {
     double avgLat = (p0.getLatitude() + p1.getLatitude()) / 2;
 
-    double cnvFactLat = 69.1 * Math.cos(avgLat);
-    double cnvFactLng = 69.1;
+    double cnvFactLat = 69.1;
+    double cnvFactLng = 69.1 * Math.cos(avgLat);
 
-    double vpLat = Math.pow(p0.getLatitude() - p1.getLatitude(), 2);
-    double vpLng = Math.pow(p0.getLongitude() - p1.getLongitude(), 2);
+    double latDif = Math.pow(p0.getLatitude() - p1.getLatitude(), 2);
+    double lngDif = Math.pow(p0.getLongitude() - p1.getLongitude(), 2);
 
-    double uvLat = 0;
-    if (vpLat != 0 && cnvFactLat != 0) {
-      uvLat = (Math.sqrt(vpLng / vpLat) * flatGap) / cnvFactLat;
-    }
+    double uvLat = latDif / (latDif + lngDif);
+    double uvLng = lngDif / (latDif + lngDif);
 
-    double uvLng;
-    if (vpLat != 0) {
-      uvLng = ((1 - Math.sqrt(vpLng / vpLat)) * flatGap) / cnvFactLng;
-    } else {
-      uvLng = flatGap / cnvFactLng;
-    }
+    double partLat = uvLat * (flatGap / cnvFactLat);
+    double partLng = uvLng * (flatGap / cnvFactLng);
 
-    return uvLat + uvLng;
+    return Math.abs(partLat) + Math.abs(partLng);
   }
 
 }
