@@ -1,5 +1,3 @@
-- [ ] api keys
-- [ ] update url factory for deployment
 - [x] add endpoint provider for portablitity
     - [ ] handle running from github codespce containers 
 - [ ] test server side geocoding service wrapper
