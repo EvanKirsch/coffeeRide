@@ -4,3 +4,4 @@
 - [ ] fix pathfinding to solution on dead end in stdpathfinder
 - [ ] print more details on screen
 - [ ] make prettier
+- [ ] change logger to lombok logger (@Logger)
