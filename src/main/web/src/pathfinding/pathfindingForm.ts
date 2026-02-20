@@ -23,7 +23,7 @@ export class PathfindingForm {
       const route = <Route>({
         origin: (<HTMLInputElement>document.getElementById("origin"))?.value,
         destination: (<HTMLInputElement>document.getElementById("destination"))?.value,
-        step: (<HTMLInputElement>document.getElementById("step"))?.value
+        stepMiles: (<HTMLInputElement>document.getElementById("step"))?.value
       })
       fetch(EndpointFactory.getAppServerBaseUrl() + "pathfinding",{
         method:"PUT",

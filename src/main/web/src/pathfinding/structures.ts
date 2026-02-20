@@ -1,7 +1,7 @@
 type Route = {
   origin: string;
   destination: string;
-  step: string;
+  stepMiles: string;
 };
 
 type CoffeeRidePlace = {

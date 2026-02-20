@@ -15,16 +15,16 @@ public final class PathfindingRequestConverter implements Converter<PathfindingR
 
   @Override
   public PathfindingRequest convert(@NonNull PathfindingRequestStr source) {
-    double step = convertStringToDouble(source.getStep());
+    double step = convertMilesToMeters(convertStringToDouble(source.getStepMiles()));
 
     return PathfindingRequest.builder()
         .orgAddress(source.getOrigin())
         .dstAddress(source.getDestination())
-        .step(step)
+        .stepMeters(step)
         .build();
   }
 
-  private Double convertStringToDouble(String s) {
+  private double convertStringToDouble(String s) {
     if (s.isEmpty()) {
       return 0.0;
     }
@@ -37,6 +37,10 @@ public final class PathfindingRequestConverter implements Converter<PathfindingR
       d = 0;
     }
     return d;
+  }
+
+  private double convertMilesToMeters(double miles) {
+    return miles * 1609.34;
   }
 
 }

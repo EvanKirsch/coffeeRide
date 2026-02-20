@@ -1,11 +1,16 @@
-import org.kirsch.service.api.SearchNearbyPlacesApiWrapper
+package org.kirsch.service.api
+
+import org.kirsch.CoffeeRideDecoratorSpec
+import org.kirsch.util.distance.DistanceCalculatorFactory
 
 class SearchNearbyPlacesApiWrapperSpec extends CoffeeRideDecoratorSpec {
 
     SearchNearbyPlacesApiWrapper snp // testing impl not interface
+    DistanceCalculatorFactory dcf
 
     def setup() {
-        snp = new SearchNearbyPlacesApiWrapper()
+        dcf = Mock()
+        snp = new SearchNearbyPlacesApiWrapper(dcf)
     }
 
     def "GetLocationRestriction"() {

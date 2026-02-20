@@ -7,8 +7,8 @@ import lombok.Data;
 @Builder
 public class PathfindingRequest {
 
-  private String orgAddress;
-  private String dstAddress;
-  private double step;
+  private final String orgAddress;
+  private final String dstAddress;
+  private final double stepMeters;
 
 }

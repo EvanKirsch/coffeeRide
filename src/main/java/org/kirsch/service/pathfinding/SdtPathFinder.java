@@ -15,7 +15,8 @@ import org.kirsch.service.api.IRoutesApiWrapper;
 import org.kirsch.service.api.ISearchNearbyPlacesApiWrapper;
 import org.kirsch.service.api.RoutesApiWrapper;
 import org.kirsch.service.api.SearchNearbyPlacesApiWrapper;
-import org.kirsch.util.DistanceCalculator;
+import org.kirsch.util.distance.IDistanceCalculator;
+import org.kirsch.util.distance.SphereDistanceCalculatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,19 +28,22 @@ public class SdtPathFinder implements IPathFinder {
   private final EdgeCalculator edgeCalculator;
   private final IPlaceGraphFactory graphFactory;
   private final IGeocodeApiWrapper geocodeApiWrapper;
+  private final IDistanceCalculator distanceCalculator;
 
   @Autowired
   public SdtPathFinder(SearchNearbyPlacesApiWrapper searchPlacesWrapper,
       RoutesApiWrapper routesApiWrapper,
       EdgeCalculator edgeCalculator,
       IPlaceGraphFactory graphFactory,
-      GeocodeApiWrapper geocodeApiWrapper
+      GeocodeApiWrapper geocodeApiWrapper,
+      SphereDistanceCalculatorFactory dcFactory
       ) {
     this.routesApiWrapper = routesApiWrapper;
     this.searchPlacesWrapper = searchPlacesWrapper;
     this.edgeCalculator = edgeCalculator;
     this.graphFactory = graphFactory;
     this.geocodeApiWrapper = geocodeApiWrapper;
+    this.distanceCalculator = dcFactory.getCalculator();
   }
 
   @Override
@@ -50,12 +54,12 @@ public class SdtPathFinder implements IPathFinder {
     LatLng origin = geocodeApiWrapper.geocode(pathfindingRequest.getOrgAddress());
     LatLng curOrigin = origin;
     LatLng destination = geocodeApiWrapper.geocode(pathfindingRequest.getDstAddress());
-    double step = Math.max(pathfindingRequest.getStep(), 0.01);
+    double stepMeters = Math.max(pathfindingRequest.getStepMeters(), 0.01);
     boolean isDeadEnd = false;
     int i = 0;
     do {
       i++;
-      target = DistanceCalculator.findNextTarget(curOrigin, destination, step);
+      target = distanceCalculator.findNextTarget(curOrigin, destination, stepMeters);
       List<Place> places = searchPlacesWrapper.searchNearby(curOrigin, target);
       WeightedPlaceGraph graph = graphFactory.createGraph(places, curOrigin, target);
       edgeCalculator.sortNodes(graph);

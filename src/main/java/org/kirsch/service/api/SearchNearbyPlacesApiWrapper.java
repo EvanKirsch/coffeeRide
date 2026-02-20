@@ -12,9 +12,11 @@ import com.google.type.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 import org.kirsch.util.ApplicationProperties;
-import org.kirsch.util.DistanceCalculator;
+import org.kirsch.util.distance.IDistanceCalculator;
+import org.kirsch.util.distance.SphereDistanceCalculatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +27,13 @@ public class SearchNearbyPlacesApiWrapper implements ISearchNearbyPlacesApiWrapp
   private static final String FIELD_MASK_VALUE = "*";
 
   private final String apiKey = ApplicationProperties.getInstance().getGoogleJavaApiKey();
+
+  private final IDistanceCalculator distanceCalculator;
+
+  @Autowired
+  public SearchNearbyPlacesApiWrapper(SphereDistanceCalculatorFactory dcFactory) {
+    this.distanceCalculator = dcFactory.getCalculator();
+  }
 
   @Override
   public List<Place> searchNearby(LatLng origin, LatLng destination) {
@@ -69,7 +78,7 @@ public class SearchNearbyPlacesApiWrapper implements ISearchNearbyPlacesApiWrapp
 
     Circle searchArea = Circle.newBuilder()
         .setCenter(destination)
-        .setRadius(DistanceCalculator.approxCrowDistance(origin, destination))
+        .setRadius(distanceCalculator.approxDistance(origin, destination))
         .build();
 
     return SearchNearbyRequest.LocationRestriction

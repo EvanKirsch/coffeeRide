@@ -6,17 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 import org.kirsch.model.Node;
 import org.kirsch.model.WeightedPlaceGraph;
-import org.kirsch.util.DistanceCalculator;
+import org.kirsch.util.distance.IDistanceCalculator;
+import org.kirsch.util.distance.SphereDistanceCalculatorFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WeightedPlaceGraphFactory implements IPlaceGraphFactory {
 
+  private final IDistanceCalculator distanceCalculator;
+
+  @Autowired
+  public WeightedPlaceGraphFactory(SphereDistanceCalculatorFactory dcFactory) {
+    this.distanceCalculator = dcFactory.getCalculator();
+  }
+
   public WeightedPlaceGraph createGraph(List<Place> places, LatLng origin, LatLng target) {
     List<Node> nodes = new ArrayList<>();
     for (Place place : places) {
-      long distanceToTarget = DistanceCalculator.approxCrowDistance(place.getLocation(), target);
-      long distanceToStart = DistanceCalculator.approxCrowDistance(place.getLocation(), origin);
+      double distanceToTarget = distanceCalculator.approxDistance(place.getLocation(), target);
+      double distanceToStart = distanceCalculator.approxDistance(place.getLocation(), origin);
       nodes.add(new Node(place, distanceToTarget, distanceToStart));
     }
     return new WeightedPlaceGraph(nodes);

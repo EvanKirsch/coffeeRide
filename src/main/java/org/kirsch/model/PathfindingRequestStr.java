@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class PathfindingRequestStr {
 
-  private String origin;
-  private String destination;
-  private String step;
+  private final String origin;
+  private final String destination;
+  private final String stepMiles;
 
 }
